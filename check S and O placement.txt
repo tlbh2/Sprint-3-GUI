@@ -1,0 +1,39 @@
+we have a 2d matrix [0][0] [0][1] [0][2]
+		    [1][0] [1][1] [1][2]
+  		    [2][0] [2][1] [2][2]
+
+
+placing "O" scenerio
+	- only 5 adjacent spot
+
+0,1 => 0,0  0,2  1,0  1,1  1,2 (check 0.0 and 0.2) so vector[0] vs vector[1]
+1.0 => 0,0  0,1  1,1  2,0  2,1 (check 0.0 and 2.0) so vector[0] vs vector[3]
+2.1 => 1,0  1,1  1,2  2,0  2,2 (check 2.0 and 2.2) so vector[3] vs vector[4]
+1.2 => 0,1  0,2  1,1  2,1  2,2 (check 0.2 and 2.2) so vector[1] vs vector[4]
+
+	- 8 adjacent spot
+
+1.1 => 0,0  0,1  0,2  1,0  1,2  2,0  2,1  2,2 ( check 0.0 and 2.2
+						check 2.0 and 0.2
+						check 0.1 and 2.1
+						check 1.0 and 1.2)
+check:
+	vector[0] vs vector[7]
+	vector[2] vs vector[5]
+	vector[1] vs vector[6]
+	vector[3] vs vector[4]
+
+placing "S" scenerio [0][0] [0][1] [0][2]
+		     [1][0] [1][1] [1][2]
+  		     [2][0] [2][1] [2][2]
+
+check [i+1][j+1]  [i+2][j+2]
+check [i+1][j]    [i+2][j]
+check [i+1][j-1]  [i+2][j-2]
+
+check [i][j-1]    [i][j-2]
+check [i-1][j-1]  [i-2][j-2]
+check [i-1][j]    [i-2][j]
+
+check [i-1][j+1]  [i-2][j+2]
+check [i][j+1]  [i][j+2]
