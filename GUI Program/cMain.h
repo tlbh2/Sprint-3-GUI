@@ -384,6 +384,368 @@ public:
 	}
 };
 
+class SimpleGame : GameLogic
+{
+	vector<vector<string>> Two_D_matrix;
+	vector< pair <int, int>> Vector_of_Adjacent_elements;
+	int total_buttons, already_fill_out = 0;
+
+	bool isValidPos(int i, int j, int n, int m)
+	{
+		if (i < 0 || j < 0 || i > n - 1 || j > m - 1)
+			return 0;
+		return 1;
+	}
+
+	vector< pair <int, int>> getAdjacent(vector<vector<string> >& arr, int i, int j)
+	{
+		int n = arr.size();
+		int m = arr[0].size();
+
+		vector< pair <int, int>> v;
+		pair<int, int> index;
+
+		if (isValidPos(i - 1, j - 1, n, m))
+		{
+			index.first = i - 1;
+			index.second = j - 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i - 1, j, n, m))
+		{
+			index.first = i - 1;
+			index.second = j;
+			v.push_back(index);
+		}
+		if (isValidPos(i - 1, j + 1, n, m))
+		{
+			index.first = i - 1;
+			index.second = j + 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i, j - 1, n, m))
+		{
+			index.first = i;
+			index.second = j - 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i, j + 1, n, m))
+		{
+			index.first = i;
+			index.second = j + 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i + 1, j - 1, n, m))
+		{
+			index.first = i + 1;
+			index.second = j - 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i + 1, j, n, m))
+		{
+			index.first = i + 1;
+			index.second = j;
+			v.push_back(index);
+		}
+		if (isValidPos(i + 1, j + 1, n, m))
+		{
+			index.first = i + 1;
+			index.second = j + 1;
+			v.push_back(index);
+		}
+
+		return v;
+	}
+
+	bool O_scenerio_checker(vector< pair <int, int>> Vector_of_Adjacent_elements)
+	{
+		switch (Vector_of_Adjacent_elements.size())
+		{
+		case 5:
+			if (Two_D_matrix[Vector_of_Adjacent_elements[0].first][Vector_of_Adjacent_elements[0].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[3].first][Vector_of_Adjacent_elements[3].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[0].first][Vector_of_Adjacent_elements[0].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[1].first][Vector_of_Adjacent_elements[1].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[3].first][Vector_of_Adjacent_elements[3].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[4].first][Vector_of_Adjacent_elements[4].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[1].first][Vector_of_Adjacent_elements[1].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[4].first][Vector_of_Adjacent_elements[4].second] == "S")
+			{
+				return true;
+			}
+			break;
+
+		case 8:
+			if (Two_D_matrix[Vector_of_Adjacent_elements[0].first][Vector_of_Adjacent_elements[0].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[7].first][Vector_of_Adjacent_elements[7].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[2].first][Vector_of_Adjacent_elements[2].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[5].first][Vector_of_Adjacent_elements[5].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[1].first][Vector_of_Adjacent_elements[1].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[6].first][Vector_of_Adjacent_elements[6].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[3].first][Vector_of_Adjacent_elements[3].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[4].first][Vector_of_Adjacent_elements[4].second] == "S")
+			{
+				return true;
+			}
+			break;
+
+		default:
+			return false;
+		}
+	}
+
+	bool S_scenerio_checker(vector<vector<string>> second_Two_D_matrix, int n, int m, int i, int j)    //in parameter (2d vector, height, width, index 1, index 2)
+	{
+		if (isValidPos(i + 1, j + 1, n, m) == 1 && isValidPos(i + 2, j + 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i + 1][j + 1] == "O" && second_Two_D_matrix[i + 2][j + 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i + 1, j, n, m) == 1 && isValidPos(i + 2, j, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i + 1][j] == "O" && second_Two_D_matrix[i + 2][j] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i + 1, j - 1, n, m) == 1 && isValidPos(i + 2, j - 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i + 1][j - 1] == "O" && second_Two_D_matrix[i + 2][j - 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i, j - 1, n, m) == 1 && isValidPos(i, j - 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i][j - 1] == "O" && second_Two_D_matrix[i][j - 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i - 1, j - 1, n, m) == 1 && isValidPos(i - 2, j - 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i - 1][j - 1] == "O" && second_Two_D_matrix[i - 2][j - 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i - 1, j, n, m) == 1 && isValidPos(i - 2, j, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i - 1][j] == "O" && second_Two_D_matrix[i - 2][j] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i - 1, j + 1, n, m) == 1 && isValidPos(i - 2, j + 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i - 1][j + 1] == "O" && second_Two_D_matrix[i - 2][j + 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i, j + 1, n, m) == 1 && isValidPos(i, j + 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i][j + 1] == "O" && second_Two_D_matrix[i][j + 2] == "S")
+			{
+				return true;
+			}
+		}
+	}
+};
+
+class GeneralGame : GameLogic
+{
+	vector<vector<string>> Two_D_matrix;
+	vector< pair <int, int>> Vector_of_Adjacent_elements;
+	int total_buttons, already_fill_out = 0;
+
+	bool isValidPos(int i, int j, int n, int m)
+	{
+		if (i < 0 || j < 0 || i > n - 1 || j > m - 1)
+			return 0;
+		return 1;
+	}
+
+	vector< pair <int, int>> getAdjacent(vector<vector<string> >& arr, int i, int j)
+	{
+		int n = arr.size();
+		int m = arr[0].size();
+
+		vector< pair <int, int>> v;
+		pair<int, int> index;
+
+		if (isValidPos(i - 1, j - 1, n, m))
+		{
+			index.first = i - 1;
+			index.second = j - 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i - 1, j, n, m))
+		{
+			index.first = i - 1;
+			index.second = j;
+			v.push_back(index);
+		}
+		if (isValidPos(i - 1, j + 1, n, m))
+		{
+			index.first = i - 1;
+			index.second = j + 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i, j - 1, n, m))
+		{
+			index.first = i;
+			index.second = j - 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i, j + 1, n, m))
+		{
+			index.first = i;
+			index.second = j + 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i + 1, j - 1, n, m))
+		{
+			index.first = i + 1;
+			index.second = j - 1;
+			v.push_back(index);
+		}
+		if (isValidPos(i + 1, j, n, m))
+		{
+			index.first = i + 1;
+			index.second = j;
+			v.push_back(index);
+		}
+		if (isValidPos(i + 1, j + 1, n, m))
+		{
+			index.first = i + 1;
+			index.second = j + 1;
+			v.push_back(index);
+		}
+
+		return v;
+	}
+
+	bool O_scenerio_checker(vector< pair <int, int>> Vector_of_Adjacent_elements)
+	{
+		switch (Vector_of_Adjacent_elements.size())
+		{
+		case 5:
+			if (Two_D_matrix[Vector_of_Adjacent_elements[0].first][Vector_of_Adjacent_elements[0].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[3].first][Vector_of_Adjacent_elements[3].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[0].first][Vector_of_Adjacent_elements[0].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[1].first][Vector_of_Adjacent_elements[1].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[3].first][Vector_of_Adjacent_elements[3].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[4].first][Vector_of_Adjacent_elements[4].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[1].first][Vector_of_Adjacent_elements[1].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[4].first][Vector_of_Adjacent_elements[4].second] == "S")
+			{
+				return true;
+			}
+			break;
+
+		case 8:
+			if (Two_D_matrix[Vector_of_Adjacent_elements[0].first][Vector_of_Adjacent_elements[0].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[7].first][Vector_of_Adjacent_elements[7].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[2].first][Vector_of_Adjacent_elements[2].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[5].first][Vector_of_Adjacent_elements[5].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[1].first][Vector_of_Adjacent_elements[1].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[6].first][Vector_of_Adjacent_elements[6].second] == "S")
+			{
+				return true;
+			}
+			else if (Two_D_matrix[Vector_of_Adjacent_elements[3].first][Vector_of_Adjacent_elements[3].second] == "S" && Two_D_matrix[Vector_of_Adjacent_elements[4].first][Vector_of_Adjacent_elements[4].second] == "S")
+			{
+				return true;
+			}
+			break;
+
+		default:
+			return false;
+		}
+	}
+
+	bool S_scenerio_checker(vector<vector<string>> second_Two_D_matrix, int n, int m, int i, int j)    //in parameter (2d vector, height, width, index 1, index 2)
+	{
+		if (isValidPos(i + 1, j + 1, n, m) == 1 && isValidPos(i + 2, j + 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i + 1][j + 1] == "O" && second_Two_D_matrix[i + 2][j + 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i + 1, j, n, m) == 1 && isValidPos(i + 2, j, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i + 1][j] == "O" && second_Two_D_matrix[i + 2][j] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i + 1, j - 1, n, m) == 1 && isValidPos(i + 2, j - 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i + 1][j - 1] == "O" && second_Two_D_matrix[i + 2][j - 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i, j - 1, n, m) == 1 && isValidPos(i, j - 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i][j - 1] == "O" && second_Two_D_matrix[i][j - 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i - 1, j - 1, n, m) == 1 && isValidPos(i - 2, j - 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i - 1][j - 1] == "O" && second_Two_D_matrix[i - 2][j - 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i - 1, j, n, m) == 1 && isValidPos(i - 2, j, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i - 1][j] == "O" && second_Two_D_matrix[i - 2][j] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i - 1, j + 1, n, m) == 1 && isValidPos(i - 2, j + 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i - 1][j + 1] == "O" && second_Two_D_matrix[i - 2][j + 2] == "S")
+			{
+				return true;
+			}
+		}
+		if (isValidPos(i, j + 1, n, m) == 1 && isValidPos(i, j + 2, n, m) == 1)
+		{
+			if (second_Two_D_matrix[i][j] == "S" && second_Two_D_matrix[i][j + 1] == "O" && second_Two_D_matrix[i][j + 2] == "S")
+			{
+				return true;
+			}
+		}
+	}
+};
+
 /*
 //user interface class
 class cMain : public wxFrame
