@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.32901.82
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GUI Program", "GUI Program.vcxproj", "{83429236-4C04-4405-BCDC-ED8CE718EA9B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Testing", "..\Testing\Testing.vcxproj", "{3CDC2C0F-BCAD-491A-BD6F-21F97ADE4847}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{83429236-4C04-4405-BCDC-ED8CE718EA9B}.Release|x64.Build.0 = Release|x64
 		{83429236-4C04-4405-BCDC-ED8CE718EA9B}.Release|x86.ActiveCfg = Release|Win32
 		{83429236-4C04-4405-BCDC-ED8CE718EA9B}.Release|x86.Build.0 = Release|Win32
+		{3CDC2C0F-BCAD-491A-BD6F-21F97ADE4847}.Debug|x64.ActiveCfg = Debug|x64
+		{3CDC2C0F-BCAD-491A-BD6F-21F97ADE4847}.Debug|x64.Build.0 = Debug|x64
+		{3CDC2C0F-BCAD-491A-BD6F-21F97ADE4847}.Debug|x86.ActiveCfg = Debug|Win32
+		{3CDC2C0F-BCAD-491A-BD6F-21F97ADE4847}.Debug|x86.Build.0 = Debug|Win32
+		{3CDC2C0F-BCAD-491A-BD6F-21F97ADE4847}.Release|x64.ActiveCfg = Release|x64
+		{3CDC2C0F-BCAD-491A-BD6F-21F97ADE4847}.Release|x64.Build.0 = Release|x64
+		{3CDC2C0F-BCAD-491A-BD6F-21F97ADE4847}.Release|x86.ActiveCfg = Release|Win32
+		{3CDC2C0F-BCAD-491A-BD6F-21F97ADE4847}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

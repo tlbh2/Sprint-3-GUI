@@ -267,13 +267,124 @@ public:
 	}
 };
 
-class UI
+class UI : public wxFrame
 {
 	//put cMain class into this
 	//create this class object in CMain as for GameLogic
 	//might fix the restart
+private:
+	int length = 0;
+
+	//add components into window 
+public:
+	int length_int = 0;
+	string length_string;
+	wxStaticText* m_txt2 = nullptr, * m_txt3 = nullptr;
+	wxStaticLine* m_staticline1;
+	wxTextCtrl* m_txt1 = nullptr;
+	wxCheckBox* m_cbox1 = nullptr;
+	wxRadioButton* m_radiobtn1, * m_radiobtn2, * m_radiobtn3, * m_radiobtn4, * m_radiobtn5, * m_radiobtn6 = nullptr;
+	wxListBox* m_list1 = nullptr;
+	//wxButton* m_btn1 = nullptr;
+	wxButton* new_Game = nullptr;
+	GameLogic* object = new GameLogic;
+	bool is_that_an_SOS = false;
+
+	wxButton** btn = new wxButton * [length_int * length_int];
+
+	wxGridSizer* buttonSizer = new wxGridSizer(length_int, length_int, 0, 0);								        // ( row, column, horz gap, vert gap )
+
+	//function
+	void set_Length(int x)
+	{
+		length = x;
+	}
+
+	int get_Length()
+	{
+		return length;
+	}
+
+	//disable all button on table to prevent further input
+	void Blank_out_Table(int lengthx)
+	{
+		for (int x = 0; x < lengthx; x++)
+		{
+			for (int y = 0; y < lengthx; y++)
+			{
+				btn[y * lengthx + x]->Enable(false);
+			}
+		}
+	}
+
 };
 
+class cMain : public wxFrame
+{
+public:
+	cMain();
+	~cMain();
+public:
+	UI* UI_object = new UI;
+	string previous_game_winner;
+
+	//initialize SOS panel of button with pre-fix value - length_int - for panel size  
+	wxPanel* bgPanel = new wxPanel(this, wxID_ANY, wxPoint(170, 70), wxSize(200, 200));
+
+	//declare event
+	void BoardSize(wxCommandEvent& evt);
+	void OnButtonClicked(wxCommandEvent& evt);
+	void Simple_game_Checked(wxCommandEvent& evt);
+	void General_game_Checked(wxCommandEvent& evt);
+	void Bplayer_S_Checked(wxCommandEvent& evt);
+	void Bplayer_O_Checked(wxCommandEvent& evt);
+	void Rplayer_S_Checked(wxCommandEvent& evt);
+	void Rplayer_O_Checked(wxCommandEvent& evt);
+	void Restart(wxCommandEvent& evt);
+	wxDECLARE_EVENT_TABLE();
+
+	void InitializeTable(wxFont font, int lengthx)                                                                       //panel of button for SOS placement
+	{
+		//updating value for panel size n*n base on user input 
+		UI_object->btn = new wxButton * [lengthx * lengthx];
+		UI_object->buttonSizer = new wxGridSizer(lengthx, lengthx, 0, 0);								        // ( row, column, horz gap, vert gap )
+
+		for (int x = 0; x < lengthx; x++)
+		{
+			for (int y = 0; y < lengthx; y++)
+			{
+				UI_object->btn[y * lengthx + x] = new wxButton(bgPanel, 10000 + (y * lengthx + x));                      //create new button and give it a unique id
+				UI_object->btn[y * lengthx + x]->SetFont(font);                                                         //set font to that instance for better visual
+				UI_object->buttonSizer->Add(UI_object->btn[y * lengthx + x], 1, wxEXPAND | wxALL);                                 //add button to wxGridSizer
+
+				UI_object->btn[y * lengthx + x]->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &cMain::OnButtonClicked, this);     //bind event handler to button when clicked
+			}
+
+			bgPanel->SetSizer(UI_object->buttonSizer);
+			bgPanel->Layout();
+		}
+	}
+
+	void InitializeComponent()
+	{
+		UI_object->m_txt2 = new wxStaticText(this, wxID_ANY, "SOS", wxPoint(130, 21), wxSize(50, 50));
+		UI_object->m_txt2 = new wxStaticText(this, wxID_ANY, "Current turn:", wxPoint(220, 275), wxSize(100, 50));
+		UI_object->m_txt3 = new wxStaticText(this, wxID_ANY, UI_object->object->GetCurrentPlayer() + " Player", wxPoint(320, 275), wxSize(150, 50));
+		UI_object->m_txt2 = new wxStaticText(this, wxID_ANY, "Blue Player", wxPoint(10, 80), wxSize(100, 50));
+		UI_object->m_txt2 = new wxStaticText(this, wxID_ANY, "Red Player", wxPoint(470, 80), wxSize(100, 50));
+		UI_object->m_txt2 = new wxStaticText(this, wxID_ANY, "Board size", wxPoint(450, 22), wxSize(70, 50));
+		UI_object->m_txt1 = new wxTextCtrl(this, 1000, UI_object->length_string, wxPoint(510, 19), wxSize(25, 25), wxTE_PROCESS_ENTER);
+		UI_object->m_radiobtn1 = new wxRadioButton(this, 1001, "Simple game", wxPoint(190, 5), wxSize(100, 50), wxRB_GROUP);
+		UI_object->m_radiobtn2 = new wxRadioButton(this, 1002, "General game", wxPoint(330, 5), wxSize(100, 50));
+		UI_object->m_radiobtn3 = new wxRadioButton(this, 1011, "S", wxPoint(30, 120), wxSize(35, 35), wxRB_GROUP);
+		UI_object->m_radiobtn4 = new wxRadioButton(this, 1022, "O", wxPoint(30, 150), wxSize(35, 35));
+		UI_object->m_radiobtn5 = new wxRadioButton(this, 1033, "S", wxPoint(490, 120), wxSize(35, 35), wxRB_GROUP);
+		UI_object->m_radiobtn6 = new wxRadioButton(this, 1044, "O", wxPoint(490, 150), wxSize(35, 35));
+		UI_object->new_Game = new wxButton(this, 2002, "New Game", wxPoint(470, 270), wxSize(70, 25));
+	}
+};
+
+/*
 //user interface class
 class cMain : public wxFrame
 {
@@ -380,6 +491,7 @@ public:
 		}
 	}
 };
+*/
 
 
 
